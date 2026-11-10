@@ -20,4 +20,9 @@
 //   appId: "1:1234567890:web:abcdef123456",
 // };
 
-export const firebaseConfig = null;
+// Realtime Database cukup dengan databaseURL (+ projectId). Field lain dari
+// Firebase Console (apiKey, appId, dst.) boleh ditambahkan, tapi tidak wajib.
+export const firebaseConfig = {
+  projectId: "studio-8146943752-20e27",
+  databaseURL: "https://studio-8146943752-20e27-default-rtdb.asia-southeast1.firebasedatabase.app",
+};
