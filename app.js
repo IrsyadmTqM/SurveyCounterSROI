@@ -1,5 +1,5 @@
 // Naikkan angka ?v= (juga di index.html) setiap kali file ini atau config diubah.
-import { firebaseConfig } from "./firebase-config.js?v=3";
+import { firebaseConfig } from "./firebase-config.js?v=4";
 
 // ---------------------------------------------------------------------------
 // Pengaturan survei. Ubah target di sini kalau kuota berubah.
@@ -10,6 +10,9 @@ const COUNTERS = [
   { key: "nonfr", label: "Non-pengguna FR", note: "Tidak pakai Face Recognition", target: 20 },
   { key: "ws", label: "Pengguna Water Station", note: "Pakai Water Station", target: 10 },
 ];
+
+// Pilihan nama surveyor. Tambahkan nama di sini kalau anggota tim bertambah.
+const SURVEYORS = ["Irsyad", "Aldo"];
 
 const FIREBASE_VERSION = "13.2.0";
 const DATA_PATH = "surveyCounterSROI"; // lokasi data di Realtime Database (harus sama dengan database.rules.json)
@@ -123,6 +126,7 @@ const ui = {
   byId: new Map(),
   form: { fr: "none", ws: false },
   editing: null, // id responden yang sedang diubah
+  surveyor: null,
   cooldown: false,
   firstRender: true,
 };
@@ -334,7 +338,43 @@ function toast(message, kind = "ok", action) {
 }
 
 function surveyor() {
-  return $("#name").value.trim().slice(0, 24) || "Anonim";
+  return ui.surveyor;
+}
+
+function setSurveyor(name) {
+  ui.surveyor = SURVEYORS.includes(name) ? name : null;
+  document.querySelectorAll("[data-surveyor]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.surveyor === ui.surveyor)));
+  if (ui.surveyor) {
+    localStorage.setItem("scs:surveyor", ui.surveyor);
+    $("#surveyor-field").classList.remove("need");
+  }
+}
+
+// Semua perubahan dicatat atas nama surveyor, jadi nama wajib dipilih dulu.
+function needSurveyor() {
+  if (ui.surveyor) return false;
+  const field = $("#surveyor-field");
+  field.classList.add("need");
+  field.scrollIntoView({ behavior: "smooth", block: "center" });
+  toast(`Pilih nama surveyor dulu (${SURVEYORS.join(" atau ")})`, "warn");
+  return true;
+}
+
+function buildSurveyors() {
+  const wrap = $("#surveyors");
+  for (const name of SURVEYORS) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip";
+    b.dataset.surveyor = name;
+    b.setAttribute("aria-pressed", "false");
+    b.textContent = name;
+    b.addEventListener("click", () => setSurveyor(name));
+    wrap.append(b);
+  }
+  // Pakai pilihan terakhir di HP ini (juga nama yang dulu diketik manual, kalau cocok).
+  const saved = localStorage.getItem("scs:surveyor") || localStorage.getItem("scs:name") || "";
+  setSurveyor(SURVEYORS.find((n) => n.toLowerCase() === saved.trim().toLowerCase()));
 }
 
 // Jalankan perubahan tanpa menunggu server (Firebase menampilkannya langsung
@@ -385,7 +425,7 @@ function exitEdit() {
 
 function save() {
   const { backend } = ui;
-  if (!backend || ui.cooldown) return;
+  if (!backend || ui.cooldown || needSurveyor()) return;
   ui.cooldown = true; // cegah ketuk dua kali tidak sengaja
   setTimeout(() => (ui.cooldown = false), 700);
   const { fr, ws } = ui.form;
@@ -406,7 +446,7 @@ function save() {
 
 function remove(id) {
   const rec = ui.byId.get(id);
-  if (!rec) return;
+  if (!rec || needSurveyor()) return;
   if (ui.editing === id) exitEdit();
   run(ui.backend.update(id, { deletedBy: surveyor(), deletedAt: ui.backend.now() }));
   toast(`Responden #${rec.no} dihapus`, "ok", { label: "Batalkan", run: () => restore(id) });
@@ -436,10 +476,6 @@ function bindEvents() {
       if (btn.dataset.act === "restore") restore(id);
     });
   }
-
-  const name = $("#name");
-  name.value = localStorage.getItem("scs:name") || "";
-  name.addEventListener("input", () => localStorage.setItem("scs:name", name.value.trim()));
 
   $("#reset").addEventListener("click", () => {
     const answer = prompt(
@@ -475,6 +511,7 @@ function escapeHtml(s) {
 
 async function start() {
   buildCounters();
+  buildSurveyors();
   bindEvents();
 
   if (!firebaseConfig) {

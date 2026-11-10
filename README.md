@@ -16,7 +16,8 @@ pengguna Water Station.
 
 ## Cara pakai (untuk tim)
 
-1. Buka link web-nya, lalu isi **Nama surveyor** sekali saja (nanti diingat otomatis).
+1. Buka link web-nya, lalu pilih **Nama surveyor** (**Irsyad** atau **Aldo**). Cukup sekali,
+   nanti diingat di HP itu. Tanpa memilih nama, data tidak bisa disimpan.
 2. Setiap selesai mewawancarai satu responden, pakai bagian **Catat responden baru**:
    - pilih **Pengguna FR** atau **Non-pengguna FR**,
    - ketuk **Pengguna Water Station** kalau responden memakainya,
@@ -108,9 +109,10 @@ tersimpan di HP masing-masing dan tidak tersinkron.
 
 Kalau status di pojok kanan atas sudah **● Live** (hijau), berarti sinkronisasi sudah jalan.
 
-## Mengubah target
+## Mengubah target atau nama surveyor
 
-Edit angka `target` di array `COUNTERS` di bagian atas [`app.js`](app.js). Setelah
+Edit angka `target` di array `COUNTERS`, atau daftar nama di `SURVEYORS`, di bagian atas
+[`app.js`](app.js). Setelah
 mengubah file CSS/JS, naikkan angka `?v=` di `index.html` dan di baris `import` pertama
 `app.js` supaya HP tim tidak memakai versi lama dari cache.
 

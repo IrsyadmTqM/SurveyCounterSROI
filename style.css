@@ -151,23 +151,6 @@ h2 { font-size: 1.05rem; margin: 0 0 6px; }
 .field-label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
 .field-help { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
 
-.name { display: block; margin-bottom: 12px; font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
-.name input {
-  display: block;
-  width: 100%;
-  margin-top: 6px;
-  font: inherit;
-  font-size: 1rem;
-  font-weight: 400;
-  text-transform: none;
-  letter-spacing: normal;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-  background: var(--bg);
-  color: var(--text);
-}
-
 .seg { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
   font: inherit;
@@ -185,6 +168,10 @@ h2 { font-size: 1.05rem; margin: 0 0 6px; }
 .chip[data-fr="fr"][aria-pressed="true"] { border-color: var(--c-fr); background: var(--c-fr); color: #fff; }
 .chip[data-fr="nonfr"][aria-pressed="true"] { border-color: var(--c-nonfr); background: var(--c-nonfr); color: #fff; }
 #q-ws[aria-pressed="true"] { border-color: var(--c-ws); background: var(--c-ws); color: #fff; }
+.chip[data-surveyor] { min-width: 96px; }
+.chip[data-surveyor][aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
+#surveyor-field.need .chip[data-surveyor] { border-color: #f59e0b; }
+#surveyor-field.need .field-label { color: #d97706; }
 .chip[aria-pressed="true"]::before { content: "✓ "; }
 
 .form-actions { display: flex; gap: 8px; }
