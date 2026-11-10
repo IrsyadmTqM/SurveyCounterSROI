@@ -1,5 +1,5 @@
 // Naikkan angka ?v= (juga di index.html) setiap kali file ini atau config diubah.
-import { firebaseConfig } from "./firebase-config.js?v=5";
+import { firebaseConfig } from "./firebase-config.js?v=6";
 
 // ---------------------------------------------------------------------------
 // Pengaturan survei. Ubah target di sini kalau kuota berubah.
@@ -334,7 +334,7 @@ function toast(message, kind = "ok", action) {
     };
   }
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => (el.hidden = true), action ? UNDO_MS : 2600);
+  toastTimer = setTimeout(() => (el.hidden = true), action ? UNDO_MS : kind === "error" ? 9000 : 2600);
 }
 
 function surveyor() {
@@ -382,7 +382,13 @@ function buildSurveyors() {
 function run(promise) {
   Promise.resolve(promise).catch((err) => {
     console.error(err);
-    toast(`Gagal menyimpan: ${err.message || err}`, "error");
+    const denied = /permission[_ ]denied/i.test(`${err.code} ${err.message}`);
+    toast(
+      denied
+        ? "Gagal menyimpan: ditolak Rules Firebase. Publish ulang isi database.rules.json terbaru (yang berisi \"respondents\")."
+        : `Gagal menyimpan: ${err.message || err}`,
+      "error",
+    );
   });
 }
 
