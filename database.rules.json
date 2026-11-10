@@ -1,6 +1,6 @@
 {
   "rules": {
-    "survey": {
+    "surveyCounterSROI": {
       ".read": true,
       "counts": {
         ".write": "newData.exists()",

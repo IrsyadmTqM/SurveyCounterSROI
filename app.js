@@ -11,7 +11,7 @@ const COUNTERS = [
 ];
 
 const FIREBASE_VERSION = "13.2.0";
-const DATA_PATH = "survey"; // lokasi data di Realtime Database
+const DATA_PATH = "surveyCounterSROI"; // lokasi data di Realtime Database (harus sama dengan database.rules.json)
 const LOG_LIMIT = 30;
 
 const KEYS = COUNTERS.map((c) => c.key);

@@ -41,18 +41,29 @@ tersimpan di HP masing-masing dan tidak tersinkron.
 
 ### 1. Buat database Firebase
 
-1. Buka <https://console.firebase.google.com>, klik **Create a project** (nama bebas,
-   Google Analytics boleh dimatikan).
-2. Di menu kiri pilih **Build → Realtime Database → Create Database**.
-   - Lokasi: **Singapore (asia-southeast1)**.
-   - Pilih **Start in locked mode**.
-3. Buka tab **Rules**, hapus isinya, lalu tempel isi file
-   [`database.rules.json`](database.rules.json) dari repo ini. Klik **Publish**.
+1. Buka <https://console.firebase.google.com>, lalu buat project baru (nama bebas,
+   Google Analytics boleh dimatikan) **atau pakai project yang sudah ada**. Satu project
+   bisa dipakai beberapa app, dan data web ini tersimpan terpisah di folder
+   `surveyCounterSROI`.
+2. Buka **Realtime Database** di project itu. Lokasi menunya berbeda-beda tergantung
+   versi console: cari di menu kiri (misalnya di kelompok **Databases & Storage** atau
+   **Build**), atau ketik "Realtime Database" di kotak pencarian console.
+   - Kalau muncul tombol **Create Database**: lokasi **Singapore (asia-southeast1)**,
+     lalu pilih **Start in locked mode**.
+   - Jangan pilih **Cloud Firestore**. Itu database yang berbeda.
+3. Buka tab **Rules**:
+   - **Database baru/kosong:** hapus isinya, tempel isi file
+     [`database.rules.json`](database.rules.json), lalu klik **Publish**.
+   - **Database sudah dipakai app lain:** jangan hapus rules lama. Tambahkan blok
+     `"surveyCounterSROI": { ... }` dari file tersebut ke dalam `"rules": { ... }` yang sudah
+     ada (pisahkan dengan koma), lalu klik **Publish**.
 
 ### 2. Ambil config web
 
-1. Kembali ke **Project Overview**, klik ikon **Web** (`</>`), beri nama app (bebas),
-   lalu klik **Register app**. Tidak perlu mencentang Firebase Hosting.
+1. Buka **Project settings** (ikon gerigi) → **General** → bagian **Your apps**. Kalau
+   sudah ada Web app, config-nya boleh langsung dipakai. Kalau belum, klik **Add app** →
+   ikon **Web** (`</>`), beri nama app (bebas), lalu klik **Register app**. Firebase
+   Hosting tidak perlu dicentang.
 2. Salin objek `firebaseConfig` yang muncul. Pastikan ada baris `databaseURL`.
    Kalau tidak ada, buka ulang config-nya di **Project settings → General → Your apps**
    setelah Realtime Database dibuat.
