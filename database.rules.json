@@ -2,19 +2,19 @@
   "rules": {
     "surveyCounterSROI": {
       ".read": true,
-      "counts": {
-        ".write": "newData.exists()",
-        ".validate": "newData.hasChildren(['total', 'fr', 'nonfr', 'ws'])",
-        "total": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10000" },
-        "fr": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10000" },
-        "nonfr": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10000" },
-        "ws": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 10000" },
-        "$other": { ".validate": false }
-      },
-      "log": {
-        "$entry": {
-          ".write": "!data.exists()",
-          ".validate": "newData.hasChildren(['by', 'kind', 'at']) && newData.child('by').isString() && newData.child('by').val().length <= 40"
+      "respondents": {
+        ".write": true,
+        "$id": {
+          ".validate": "newData.hasChildren(['fr', 'ws', 'by', 'at'])",
+          "fr": { ".validate": "newData.val() == 'fr' || newData.val() == 'nonfr' || newData.val() == 'none'" },
+          "ws": { ".validate": "newData.isBoolean()" },
+          "by": { ".validate": "newData.isString() && newData.val().length <= 40" },
+          "at": { ".validate": "newData.isNumber()" },
+          "editedBy": { ".validate": "newData.isString() && newData.val().length <= 40" },
+          "editedAt": { ".validate": "newData.isNumber()" },
+          "deletedBy": { ".validate": "newData.isString() && newData.val().length <= 40" },
+          "deletedAt": { ".validate": "newData.isNumber()" },
+          "$other": { ".validate": false }
         }
       }
     }

@@ -17,21 +17,32 @@ pengguna Water Station.
 ## Cara pakai (untuk tim)
 
 1. Buka link web-nya, lalu isi **Nama surveyor** sekali saja (nanti diingat otomatis).
-2. Setiap selesai mewawancarai satu responden, buka bagian **Catat responden baru**:
+2. Setiap selesai mewawancarai satu responden, pakai bagian **Catat responden baru**:
    - pilih **Pengguna FR** atau **Non-pengguna FR**,
    - ketuk **Pengguna Water Station** kalau responden memakainya,
    - tekan **+ Simpan responden**.
 
-   Total otomatis bertambah 1, begitu juga kategori yang dipilih.
-3. Kalau salah input, betulkan dengan tombol **−** / **+** di kartu counter yang bersangkutan.
-4. **Aktivitas terbaru** mencatat siapa mengubah apa dan jam berapa.
+   Setiap simpan = satu responden. Total otomatis bertambah 1, begitu juga kategori yang dipilih.
+   Angka di kartu atas **tidak bisa diubah manual**, karena semuanya dihitung dari **Daftar responden**.
+
+### Kalau salah input
+
+| Masalah | Solusi |
+|---|---|
+| Salah pilih kategori (mis. harusnya Non-FR, tercatat FR) | Tekan **Ubah** di responden itu, pilih kategori yang benar, lalu tekan **Simpan perubahan** |
+| Responden tercatat dua kali / tidak sengaja tersimpan | Tekan **Hapus** di responden itu |
+| Terlanjur menghapus responden yang salah | Langsung tekan **Batalkan** di notifikasi bawah, atau buka **Responden terhapus** lalu tekan **Pulihkan** |
+
+Setiap responden punya nomor tetap (#1, #2, …), nama surveyor yang mencatat, jam, dan
+siapa yang terakhir mengubah, jadi tim bisa saling mengecek. Angka FR, Non-FR, dan WS
+dijamin tidak pernah lebih besar dari total.
 
 Fitur lain:
 
-- Angka tidak bisa minus, dan tap bersamaan dari banyak HP tetap terhitung semua (memakai transaksi Firebase).
-- Muncul peringatan kalau jumlahnya tidak masuk akal, misalnya FR + Non-FR lebih banyak dari total.
-- Kalau sinyal hilang, perubahan disimpan dulu lalu otomatis terkirim saat online lagi.
-- **Reset semua counter ke 0** ada di paling bawah, dan harus mengetik `RESET` dulu supaya tidak terpencet.
+- Tap dari banyak HP sekaligus tetap tercatat semua.
+- Kalau sinyal hilang, data disimpan dulu lalu otomatis terkirim saat online lagi.
+- **Hapus semua data (mulai dari 0)** di paling bawah hanya untuk membersihkan data uji
+  coba sebelum survei dimulai. Harus mengetik `RESET`, dan data yang terhapus tidak bisa dipulihkan.
 
 ## Setup sekali saja (oleh satu orang)
 
@@ -97,17 +108,18 @@ tersimpan di HP masing-masing dan tidak tersinkron.
 
 Kalau status di pojok kanan atas sudah **● Live** (hijau), berarti sinkronisasi sudah jalan.
 
-## Mengubah target atau kategori
+## Mengubah target
 
-Edit array `COUNTERS` di bagian atas [`app.js`](app.js). Kalau menambah kategori baru,
-tambahkan juga nama kategorinya di [`database.rules.json`](database.rules.json), lalu
-publish ulang Rules di Firebase.
+Edit angka `target` di array `COUNTERS` di bagian atas [`app.js`](app.js). Setelah
+mengubah file CSS/JS, naikkan angka `?v=` di `index.html` dan di baris `import` pertama
+`app.js` supaya HP tim tidak memakai versi lama dari cache.
 
 ## Catatan keamanan
 
-Siapa pun yang punya link bisa menambah atau mengurangi angka, jadi bagikan link hanya
-ke anggota tim. Rules yang disediakan mencegah angka negatif, menolak data selain
-keempat counter, mencegah counter dihapus, dan mencegah log aktivitas diubah atau dihapus.
+Siapa pun yang punya link bisa menambah, mengubah, dan menghapus responden, jadi bagikan
+link hanya ke anggota tim. Rules yang disediakan hanya menerima data responden dengan
+format yang benar (kategori FR/Non-FR/WS dan nama surveyor), dan menolak data di luar
+folder `surveyCounterSROI/respondents`.
 
 ## Menjalankan di komputer sendiri
 

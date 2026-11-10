@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#2563eb">
+  <meta name="theme-color" content="#6d28d9">
   <title>Survey Counter SROI</title>
-  <link rel="stylesheet" href="style.css">
+  <!-- Naikkan angka ?v= setiap kali file CSS/JS diubah supaya browser tim tidak memakai versi lama. -->
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <main>
@@ -19,13 +20,16 @@
 
     <div id="banner" class="banner" hidden></div>
 
-    <section id="counters" class="counters" aria-label="Counter responden"></section>
+    <section id="counters" class="counters" aria-label="Jumlah responden"></section>
 
-    <div id="warn" class="warn" hidden></div>
+    <section id="form" class="card form" aria-labelledby="form-title">
+      <h2 id="form-title">Catat responden baru</h2>
+      <p id="form-hint" class="hint">Satu responden = satu kali simpan. <b>Total</b> (carbon footprint) otomatis +1, ditambah kategori yang kamu pilih.</p>
 
-    <section class="card quick" aria-labelledby="quick-title">
-      <h2 id="quick-title">Catat responden baru</h2>
-      <p class="hint">Satu responden = satu kali simpan. <b>Total</b> (carbon footprint) otomatis +1, ditambah kategori yang kamu pilih.</p>
+      <label class="name">
+        <span>Nama surveyor</span>
+        <input id="name" type="text" maxlength="24" placeholder="mis. Irsyad" autocomplete="nickname">
+      </label>
 
       <div class="field">
         <span class="field-label">Status FR KAI</span>
@@ -43,27 +47,34 @@
         </div>
       </div>
 
-      <button type="button" id="save" class="primary">+ Simpan responden</button>
-
-      <label class="name">
-        <span>Nama surveyor (muncul di log aktivitas)</span>
-        <input id="name" type="text" maxlength="24" placeholder="mis. Irsyad" autocomplete="nickname">
-      </label>
+      <div class="form-actions">
+        <button type="button" id="cancel-edit" class="secondary" hidden>Batal</button>
+        <button type="button" id="save" class="primary">+ Simpan responden</button>
+      </div>
     </section>
 
-    <section class="card" aria-labelledby="log-title">
-      <h2 id="log-title">Aktivitas terbaru</h2>
-      <ol id="log" class="log"><li class="empty">Belum ada aktivitas.</li></ol>
+    <section class="card" aria-labelledby="list-title">
+      <h2 id="list-title">Daftar responden</h2>
+      <p class="hint">Salah input? Tekan <b>Ubah</b> untuk membetulkan kategori, atau <b>Hapus</b> kalau responden tercatat dobel.</p>
+      <ol id="list" class="list"><li class="empty">Belum ada responden.</li></ol>
+
+      <details id="trash" class="trash" hidden>
+        <summary>Responden terhapus (<span id="trash-count">0</span>)</summary>
+        <ol id="trash-list" class="list"></ol>
+      </details>
     </section>
 
     <footer>
-      <button type="button" id="reset" class="link-danger">Reset semua counter ke 0</button>
+      <button type="button" id="reset" class="link-danger">Hapus semua data (mulai dari 0)</button>
     </footer>
   </main>
 
-  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden>
+    <span id="toast-text"></span>
+    <button type="button" id="toast-action" hidden></button>
+  </div>
 
   <noscript><p class="banner">Aktifkan JavaScript untuk memakai counter ini.</p></noscript>
-  <script type="module" src="app.js"></script>
+  <script type="module" src="app.js?v=3"></script>
 </body>
 </html>
