@@ -1,35 +1,50 @@
+/* Palet mengikuti brand Olahkarsa (diambil dari olahkarsa.com):
+   biru utama #005CFE, biru logo #009CF9, kuning #FFB700.
+   Warna kategori sudah dicek supaya tetap bisa dibedakan (termasuk buta warna). */
 :root {
-  --bg: #f3f4f7;
+  --bg: #f4f7fc;
   --card: #ffffff;
-  --text: #1b2030;
-  --muted: #687083;
-  --line: #e3e6ec;
-  --accent: #6d28d9;
+  --text: #1f2933;
+  --muted: #5f6b7a;
+  --line: #e2e8f0;
+  --title: #005cfe;
+  --accent: #005cfe;       /* biru utama Olahkarsa */
+  --brand-yellow: #ffb700; /* kuning Olahkarsa */
+  --ink: #14213d;          /* teks gelap di atas warna terang */
   --ok: #15803d;
   --ok-bg: #dcfce7;
   --warn: #92400e;
   --warn-bg: #fef3c7;
   --danger: #dc2626;
-  --c-total: #6d28d9;
-  --c-fr: #2563eb;
-  --c-nonfr: #ea580c;
-  --c-ws: #0d9488;
+  --c-total: #005cfe;
+  --c-fr: #009cf9;
+  --c-nonfr: #e8a300;
+  --c-ws: #13a05a;
+  --on-fr: var(--ink);
+  --on-nonfr: var(--ink);
+  --on-ws: var(--ink);
   --radius: 16px;
   color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f1116;
-    --card: #191c24;
-    --text: #e9ebf0;
-    --muted: #9aa2b3;
-    --line: #2b303c;
+    --bg: #0c1117;
+    --card: #141a23;
+    --text: #e8ecf2;
+    --muted: #9aa6b8;
+    --line: #263040;
+    --title: #7aa2ff;
     --ok: #4ade80;
     --ok-bg: #14321f;
     --warn: #fcd34d;
     --warn-bg: #3a2c0b;
     --danger: #f87171;
+    --c-total: #5d6dff;
+    --c-fr: #0098c9;
+    --c-nonfr: #c28900;
+    --c-ws: #128246;
+    --on-ws: #ffffff;
   }
 }
 
@@ -57,7 +72,7 @@ header {
   margin: 6px 0 14px;
 }
 
-h1 { font-size: 1.3rem; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: 1.3rem; margin: 0; letter-spacing: -0.01em; color: var(--title); }
 h2 { font-size: 1.05rem; margin: 0 0 6px; }
 .subtitle { margin: 2px 0 0; color: var(--muted); font-size: 0.85rem; }
 
@@ -117,13 +132,12 @@ h2 { font-size: 1.05rem; margin: 0 0 6px; }
   font-weight: 750;
   line-height: 1;
   font-variant-numeric: tabular-nums;
-  color: var(--c);
+  color: var(--text); /* angka pakai warna teks; warna kategori ada di garis atas & bar */
 }
 .target { color: var(--muted); font-weight: 600; font-size: 1rem; }
 
 .bar { height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; }
 .fill { height: 100%; width: 0; background: var(--c); border-radius: inherit; transition: width 0.35s ease; }
-.done .fill { background: var(--ok); }
 
 .remain { margin: 6px 0 0; font-size: 0.8rem; color: var(--muted); font-weight: 600; }
 .done .remain { color: var(--ok); }
@@ -143,7 +157,7 @@ h2 { font-size: 1.05rem; margin: 0 0 6px; }
   margin-bottom: 14px;
   scroll-margin-top: 12px;
 }
-.form.is-editing { border: 2px solid #f59e0b; box-shadow: 0 0 0 4px color-mix(in srgb, #f59e0b 18%, transparent); }
+.form.is-editing { border: 2px solid var(--brand-yellow); box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand-yellow) 22%, transparent); }
 
 .hint { margin: 0 0 12px; font-size: 0.85rem; color: var(--muted); }
 
@@ -165,13 +179,13 @@ h2 { font-size: 1.05rem; margin: 0 0 6px; }
   cursor: pointer;
   touch-action: manipulation;
 }
-.chip[data-fr="fr"][aria-pressed="true"] { border-color: var(--c-fr); background: var(--c-fr); color: #fff; }
-.chip[data-fr="nonfr"][aria-pressed="true"] { border-color: var(--c-nonfr); background: var(--c-nonfr); color: #fff; }
-#q-ws[aria-pressed="true"] { border-color: var(--c-ws); background: var(--c-ws); color: #fff; }
+.chip[data-fr="fr"][aria-pressed="true"] { border-color: var(--c-fr); background: var(--c-fr); color: var(--on-fr); }
+.chip[data-fr="nonfr"][aria-pressed="true"] { border-color: var(--c-nonfr); background: var(--c-nonfr); color: var(--on-nonfr); }
+#q-ws[aria-pressed="true"] { border-color: var(--c-ws); background: var(--c-ws); color: var(--on-ws); }
 .chip[data-surveyor] { min-width: 96px; }
 .chip[data-surveyor][aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
-#surveyor-field.need .chip[data-surveyor] { border-color: #f59e0b; }
-#surveyor-field.need .field-label { color: #d97706; }
+#surveyor-field.need .chip[data-surveyor] { border-color: var(--brand-yellow); border-width: 2px; }
+#surveyor-field.need .field-label { color: var(--warn); }
 .chip[aria-pressed="true"]::before { content: "✓ "; }
 
 .form-actions { display: flex; gap: 8px; }
@@ -187,7 +201,7 @@ h2 { font-size: 1.05rem; margin: 0 0 6px; }
 .primary { flex: 1; border: 0; background: var(--accent); color: #fff; }
 .secondary { flex: none; padding: 14px 18px; border: 1px solid var(--line); background: transparent; color: var(--text); }
 .primary:active, .secondary:active { transform: scale(0.98); }
-.is-editing .primary { background: #d97706; }
+.is-editing .primary { background: var(--brand-yellow); color: var(--ink); }
 
 /* ---------- Daftar responden ---------- */
 .list { list-style: none; margin: 0; padding: 0; max-height: 420px; overflow-y: auto; overscroll-behavior: contain; }
@@ -204,16 +218,16 @@ h2 { font-size: 1.05rem; margin: 0 0 6px; }
   border-radius: 8px;
 }
 .resp:first-child { border-top: 0; }
-.resp.editing { background: color-mix(in srgb, #f59e0b 16%, transparent); }
+.resp.editing { background: color-mix(in srgb, var(--brand-yellow) 20%, transparent); }
 .resp .no { grid-area: no; font-weight: 750; font-variant-numeric: tabular-nums; color: var(--muted); min-width: 2.4em; }
 .resp .tags { grid-area: tags; display: flex; flex-wrap: wrap; gap: 4px; }
 .resp .meta { grid-area: meta; font-size: 0.78rem; color: var(--muted); }
 .resp .actions { grid-area: actions; display: flex; gap: 6px; }
 
 .tag { font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; color: #fff; background: var(--muted); }
-.t-fr { background: var(--c-fr); }
-.t-nonfr { background: var(--c-nonfr); }
-.t-ws { background: var(--c-ws); }
+.t-fr { background: var(--c-fr); color: var(--on-fr); }
+.t-nonfr { background: var(--c-nonfr); color: var(--on-nonfr); }
+.t-ws { background: var(--c-ws); color: var(--on-ws); }
 .t-tanpakategori { background: transparent; color: var(--muted); border: 1px solid var(--line); }
 
 .mini {
@@ -263,7 +277,7 @@ footer { text-align: center; margin-top: 8px; }
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: 600;
-  background: #1b2030;
+  background: var(--ink);
   color: #fff;
   box-shadow: 0 6px 24px rgb(0 0 0 / 0.25);
   z-index: 10;
@@ -274,7 +288,7 @@ footer { text-align: center; margin-top: 8px; }
 #toast-action {
   font: inherit;
   font-weight: 700;
-  color: #fde68a;
+  color: var(--brand-yellow);
   background: rgb(255 255 255 / 0.12);
   border: 0;
   border-radius: 8px;
