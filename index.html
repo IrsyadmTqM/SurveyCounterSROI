@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2563eb">
+  <title>Survey Counter SROI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Survey Counter SROI</h1>
+        <p class="subtitle">Counter responden realtime untuk tim</p>
+      </div>
+      <span id="status" class="status" role="status">Menghubungkan…</span>
+    </header>
+
+    <div id="banner" class="banner" hidden></div>
+
+    <section id="counters" class="counters" aria-label="Counter responden"></section>
+
+    <div id="warn" class="warn" hidden></div>
+
+    <section class="card quick" aria-labelledby="quick-title">
+      <h2 id="quick-title">Catat responden baru</h2>
+      <p class="hint">Satu responden = satu kali simpan. <b>Total</b> (carbon footprint) otomatis +1, ditambah kategori yang kamu pilih.</p>
+
+      <div class="field">
+        <span class="field-label">Status FR KAI</span>
+        <div class="seg" role="group" aria-label="Status FR KAI">
+          <button type="button" class="chip" data-fr="fr" aria-pressed="false">Pengguna FR</button>
+          <button type="button" class="chip" data-fr="nonfr" aria-pressed="false">Non-pengguna FR</button>
+        </div>
+        <span class="field-help">Ketuk lagi untuk batal pilih.</span>
+      </div>
+
+      <div class="field">
+        <span class="field-label">Water Station</span>
+        <div class="seg">
+          <button type="button" class="chip" id="q-ws" aria-pressed="false">Pengguna Water Station</button>
+        </div>
+      </div>
+
+      <button type="button" id="save" class="primary">+ Simpan responden</button>
+
+      <label class="name">
+        <span>Nama surveyor (muncul di log aktivitas)</span>
+        <input id="name" type="text" maxlength="24" placeholder="mis. Irsyad" autocomplete="nickname">
+      </label>
+    </section>
+
+    <section class="card" aria-labelledby="log-title">
+      <h2 id="log-title">Aktivitas terbaru</h2>
+      <ol id="log" class="log"><li class="empty">Belum ada aktivitas.</li></ol>
+    </section>
+
+    <footer>
+      <button type="button" id="reset" class="link-danger">Reset semua counter ke 0</button>
+    </footer>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <noscript><p class="banner">Aktifkan JavaScript untuk memakai counter ini.</p></noscript>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
