@@ -1,6 +1,6 @@
 // Naikkan angka ?v= (juga di index.html) setiap kali file ini atau config diubah.
-import { firebaseConfig } from "./firebase-config.js?v=9";
-import { TASK_GROUPS, SECTIONS, SOURCE } from "./tasks.js?v=9";
+import { firebaseConfig } from "./firebase-config.js?v=10";
+import { TASK_GROUPS, SOURCE } from "./tasks.js?v=10";
 
 // ---------------------------------------------------------------------------
 // Pengaturan survei. Ubah target di sini kalau kuota berubah.
@@ -507,16 +507,15 @@ function el(tag, className, text) {
   return node;
 }
 
-// Tombol "Rujukan" di kanan tugas: membuka folder proyek (lihat SOURCE di tasks.js) di tab baru,
-// dengan nama topiknya di tombol.
-function refLink(section) {
+// Tombol "Rujukan" di kanan tugas: membuka folder proyek di OneDrive (SOURCE di tasks.js) di tab baru.
+function refLink(drivePath) {
   const a = el("a", "ref");
   a.href = SOURCE.url;
   a.target = "_blank";
   a.rel = "noopener";
-  a.title = `Topik: ${section.path} · buka ${SOURCE.title}`;
-  a.setAttribute("aria-label", `Buka rujukan ${section.label} di ${SOURCE.title}`);
-  a.append(el("span", "ref-cap", "Rujukan ↗"), el("span", "ref-label", section.label));
+  a.title = `OneDrive: ${drivePath}`;
+  a.setAttribute("aria-label", `Buka rujukan di OneDrive: ${drivePath}`);
+  a.append(el("span", "ref-cap", "Rujukan ↗"), el("span", "ref-label", "OneDrive"));
   return a;
 }
 
@@ -546,8 +545,7 @@ function buildChecklist() {
       body.append(el("span", "task-meta"));
       label.append(box, body);
       li.append(label);
-      const section = SECTIONS[t.ref];
-      if (section) li.append(refLink(section));
+      if (t.drive) li.append(refLink(t.drive)); // hanya kalau rujukannya ada di OneDrive
       list.append(li);
     }
     sec.append(list);
