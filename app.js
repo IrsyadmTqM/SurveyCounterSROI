@@ -1,6 +1,6 @@
 // Naikkan angka ?v= (juga di index.html) setiap kali file ini atau config diubah.
-import { firebaseConfig } from "./firebase-config.js?v=15";
-import { TASK_GROUPS, SOURCE } from "./tasks.js?v=15";
+import { firebaseConfig } from "./firebase-config.js?v=16";
+import { TASK_GROUPS } from "./tasks.js?v=16";
 
 // ---------------------------------------------------------------------------
 // Pengaturan survei. Ubah target di sini kalau kuota berubah.
@@ -507,22 +507,7 @@ function el(tag, className, text) {
   return node;
 }
 
-// Tombol "Rujukan" di kanan tugas: membuka folder proyek di OneDrive (SOURCE di tasks.js) di tab baru.
-function refLink(drivePath) {
-  const a = el("a", "ref");
-  a.href = SOURCE.url;
-  a.target = "_blank";
-  a.rel = "noopener";
-  a.title = `OneDrive: ${drivePath}`;
-  a.setAttribute("aria-label", `Buka rujukan di OneDrive: ${drivePath}`);
-  a.append(el("span", "ref-cap", "Rujukan ↗"), el("span", "ref-label", "OneDrive"));
-  return a;
-}
-
 function buildChecklist() {
-  const source = $("#ceklis-source");
-  source.href = SOURCE.url;
-  source.textContent = `${SOURCE.title} ↗`;
   const wrap = $("#groups");
   for (const g of TASK_GROUPS) {
     const sec = el("section", "card group");
@@ -545,7 +530,6 @@ function buildChecklist() {
       body.append(el("span", "task-meta"));
       label.append(box, body);
       li.append(label);
-      if (t.drive) li.append(refLink(t.drive)); // hanya kalau rujukannya ada di OneDrive
       list.append(li);
     }
     sec.append(list);

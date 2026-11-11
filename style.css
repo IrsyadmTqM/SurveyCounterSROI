@@ -378,33 +378,3 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 3px 
 .task-meta { font-size: 0.78rem; font-weight: 700; color: var(--ok); }
 .task-meta:empty { display: none; }
 .task.done .task-title { color: var(--muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--muted) 60%, transparent); }
-
-/* Tombol rujukan di kanan tugas */
-.task { display: flex; align-items: flex-start; gap: 8px; }
-.task label { flex: 1; min-width: 0; }
-.ref {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1px;
-  width: 74px;
-  min-height: 44px;
-  margin-top: 8px;
-  padding: 5px 4px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  color: var(--accent);
-  text-decoration: none;
-  line-height: 1.15;
-  touch-action: manipulation;
-}
-@media (prefers-color-scheme: dark) { .ref { color: var(--title); } }
-.ref:hover, .ref:focus-visible { border-color: currentColor; }
-.ref-cap { font-size: 0.66rem; font-weight: 600; color: var(--muted); }
-.ref-label { font-size: 0.8rem; font-weight: 750; }
-.hint.source { margin-top: 6px; }
-.hint.source a { color: var(--accent); font-weight: 600; }
-@media (prefers-color-scheme: dark) { .hint.source a { color: var(--title); } }
-a:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; }

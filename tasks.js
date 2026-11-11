@@ -2,17 +2,9 @@
 // Internal Lapangan. Tugas dari Lembar Kerja hanya memakai kode informan; detailnya tetap di Lembar Kerja.
 //
 // - Ubah `title` / `note` dengan bebas.
-// - `drive` = lokasi rujukannya di folder OneDrive (lihat SOURCE). Hanya tugas yang punya `drive`
-//   yang diberi tombol "Rujukan"; tugas yang rujukannya tidak ada di OneDrive dibiarkan tanpa tombol.
 // - Jangan mengubah `id` tugas yang sudah dicentang; centangnya tersimpan berdasarkan id.
 //   id hanya boleh huruf kecil, angka, dan tanda minus.
 // - Repo dan website ini PUBLIK: jangan tulis angka atau temuan internal di sini.
-
-// Folder proyek di OneDrive, dibuka oleh tombol "Rujukan".
-export const SOURCE = {
-  title: "Folder proyek PT KAI – SROI 3 Program (OneDrive)",
-  url: "https://1drv.ms/f/c/f2e3f15542ab23db/IgC3VrTu-m5GS7vRnGPdHEoeAYSVTEX4ucERgNQ9e-ByHII?e=ZiyhtI",
-};
 
 export const TASK_GROUPS = [
   {
@@ -29,7 +21,6 @@ export const TASK_GROUPS = [
       {
         id: "prep-cf",
         title: "Contoh tampilan jejak karbon (Bagian 8B) tersimpan di HP",
-        drive: "2. Data Sekunder › 3. Informasi Carbon Footprint › dokumentasi",
         note: "Dari OneDrive: 2. Data Sekunder → 3. Informasi Carbon Footprint → dokumentasi. Cetak kalau sempat.",
       },
     ],
