@@ -118,8 +118,8 @@ export const TASK_GROUPS = [
     title: "Dokumen yang diminta",
     subtitle: "Minta saat wawancara, centang kalau sudah diterima",
     tasks: [
-      { id: "doc-a1", title: "Dokumen dari A1 (3 item)", note: "Lihat Tracker Dokumen" },
-      { id: "doc-a2", title: "Dokumen dari A2 (5 item)", note: "Lihat Tracker Dokumen" },
+      { id: "doc-a1", title: "3 dokumen dari A1", note: "Daftar di Pedoman Wawancara bagian A1 · Tracker Dokumen no. 14–16" },
+      { id: "doc-a2", title: "5 dokumen dari A2", note: "Daftar di Pedoman Wawancara bagian A2 · Tracker Dokumen no. 17–21" },
       { id: "doc-a3-biaya", title: "Rincian biaya program, termasuk kontrak konsultan", note: "Dari A3" },
       { id: "doc-a3-emisi", title: "Laporan akhir & kertas kerja perhitungan emisi (per relasi dan kelas)", note: "Dari A3" },
       { id: "doc-a3-fgd", title: "Notulen & daftar hadir FGD 15 November 2024", note: "Dari A3" },
@@ -128,8 +128,8 @@ export const TASK_GROUPS = [
       { id: "doc-a4-tiket", title: "Data tiket yang menampilkan info jejak karbon per bulan", note: "Dari A4" },
       { id: "doc-a4-klik", title: "Data klik atau tampilan di aplikasi", note: "Dari A4" },
       { id: "doc-a4-biaya", title: "Rincian biaya pengembangan fitur", note: "Dari A4" },
-      { id: "doc-a5", title: "Dokumen dari A5 (Daop 8)", note: "Lihat Tracker Dokumen" },
-      { id: "doc-b3", title: "Dokumen dari B3 (1 item)", note: "Lihat Tracker Dokumen" },
+      { id: "doc-a5", title: "5 dokumen dari A5 (Daop 8)", note: "Daftar di Pedoman Wawancara bagian A5 · Tracker Dokumen no. 30–33" },
+      { id: "doc-b3", title: "1 dokumen dari B3", note: "Daftar di Pedoman Wawancara bagian B3 · Tracker Dokumen no. 35" },
     ],
   },
   {
