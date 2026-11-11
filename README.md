@@ -47,8 +47,8 @@ Fitur lain:
 
 ## Ceklis tugas
 
-Tab **Ceklis tugas** berisi tugas tim Bandung (Tim 2): persiapan & bawaan, Hari 1, Hari 2,
-wawancara daring, dokumen yang diminta, dan verifikasi internal. Tugas yang berasal dari Lembar
+Tab **Ceklis tugas** berisi tugas yang jelas dikerjakan tim Bandung (Tim 2): persiapan & bawaan,
+Hari 1, Hari 2, dokumen yang diminta, dan verifikasi internal. Tugas yang berasal dari Lembar
 Kerja Internal hanya memakai kode informan (A1–A6, B1–B6); detailnya tetap di Lembar Kerja.
 Centang tugas yang sudah selesai; semua HP melihat ceklis yang sama, lengkap dengan siapa yang
 mencentang dan jamnya. Salah centang? Ketuk lagi untuk membatalkan (ada tombol **Kembalikan**

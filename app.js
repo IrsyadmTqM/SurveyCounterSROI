@@ -1,6 +1,6 @@
 // Naikkan angka ?v= (juga di index.html) setiap kali file ini atau config diubah.
-import { firebaseConfig } from "./firebase-config.js?v=13";
-import { TASK_GROUPS, SOURCE } from "./tasks.js?v=13";
+import { firebaseConfig } from "./firebase-config.js?v=14";
+import { TASK_GROUPS, SOURCE } from "./tasks.js?v=14";
 
 // ---------------------------------------------------------------------------
 // Pengaturan survei. Ubah target di sini kalau kuota berubah.
