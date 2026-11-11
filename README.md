@@ -53,6 +53,10 @@ Centang tugas yang sudah selesai; semua HP melihat ceklis yang sama, lengkap den
 mencentang dan jamnya. Salah centang? Ketuk lagi untuk membatalkan (ada tombol **Kembalikan**
 kalau terlanjur). Link langsung ke ceklis: tambahkan `#ceklis` di akhir alamat web.
 
+Lupa detail sebuah tugas? Tombol **Rujukan** di kanan tiap tugas membuka dokumen Contekan
+dan menyebut nama bagiannya (misalnya **A3**, **Hari 1**, **Stasiun**). Dokumen itu privat di
+claude.ai, jadi anggota tim perlu diberi akses lewat tombol **Share** di dokumen.
+
 Daftar tugasnya ada di [`tasks.js`](tasks.js). Karena repo dan web ini publik, angka dan
 temuan dari bagian *Catatan internal* tidak ditulis di sana; detailnya tetap di dokumen Contekan.
 

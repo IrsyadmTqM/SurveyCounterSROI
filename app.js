@@ -1,6 +1,6 @@
 // Naikkan angka ?v= (juga di index.html) setiap kali file ini atau config diubah.
-import { firebaseConfig } from "./firebase-config.js?v=7";
-import { TASK_GROUPS } from "./tasks.js?v=7";
+import { firebaseConfig } from "./firebase-config.js?v=8";
+import { TASK_GROUPS, SECTIONS, SOURCE } from "./tasks.js?v=8";
 
 // ---------------------------------------------------------------------------
 // Pengaturan survei. Ubah target di sini kalau kuota berubah.
@@ -507,7 +507,23 @@ function el(tag, className, text) {
   return node;
 }
 
+// Tombol "Rujukan" di kanan tugas: membuka dokumen Contekan di tab baru.
+// Dokumennya tidak bisa ditautkan langsung ke satu bagian, jadi nama bagiannya ditampilkan.
+function refLink(section) {
+  const a = el("a", "ref");
+  a.href = SOURCE.url;
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.title = `Rujukan: ${SOURCE.title} › ${section.path}`;
+  a.setAttribute("aria-label", `Buka rujukan di dokumen ${SOURCE.title}, bagian ${section.path}`);
+  a.append(el("span", "ref-cap", "Rujukan ↗"), el("span", "ref-label", section.label));
+  return a;
+}
+
 function buildChecklist() {
+  const source = $("#ceklis-source");
+  source.href = SOURCE.url;
+  source.textContent = `${SOURCE.title} ↗`;
   const wrap = $("#groups");
   for (const g of TASK_GROUPS) {
     const sec = el("section", "card group");
@@ -530,6 +546,8 @@ function buildChecklist() {
       body.append(el("span", "task-meta"));
       label.append(box, body);
       li.append(label);
+      const section = SECTIONS[t.ref];
+      if (section) li.append(refLink(section));
       list.append(li);
     }
     sec.append(list);
