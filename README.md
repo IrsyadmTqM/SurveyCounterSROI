@@ -45,6 +45,17 @@ Fitur lain:
 - **Hapus semua data (mulai dari 0)** di paling bawah hanya untuk membersihkan data uji
   coba sebelum survei dimulai. Harus mengetik `RESET`, dan data yang terhapus tidak bisa dipulihkan.
 
+## Ceklis tugas
+
+Tab **Ceklis tugas** berisi tugas tim Bandung dari dokumen *Contekan Lapangan SROI KAI –
+Bandung*: persiapan & bawaan, Hari 1, Hari 2, dokumen yang diminta, dan verifikasi internal.
+Centang tugas yang sudah selesai; semua HP melihat ceklis yang sama, lengkap dengan siapa yang
+mencentang dan jamnya. Salah centang? Ketuk lagi untuk membatalkan (ada tombol **Kembalikan**
+kalau terlanjur). Link langsung ke ceklis: tambahkan `#ceklis` di akhir alamat web.
+
+Daftar tugasnya ada di [`tasks.js`](tasks.js). Karena repo dan web ini publik, angka dan
+temuan dari bagian *Catatan internal* tidak ditulis di sana; detailnya tetap di dokumen Contekan.
+
 ## Setup sekali saja (oleh satu orang)
 
 Web ini memakai **Firebase Realtime Database** (gratis) untuk sinkronisasi. Selama
@@ -109,10 +120,11 @@ tersimpan di HP masing-masing dan tidak tersinkron.
 
 Kalau status di pojok kanan atas sudah **● Live** (hijau), berarti sinkronisasi sudah jalan.
 
-## Mengubah target atau nama surveyor
+## Mengubah target, nama surveyor, atau daftar tugas
 
 Edit angka `target` di array `COUNTERS`, atau daftar nama di `SURVEYORS`, di bagian atas
-[`app.js`](app.js). Setelah
+[`app.js`](app.js). Daftar tugas ceklis ada di [`tasks.js`](tasks.js); jangan mengubah `id`
+tugas yang sudah dicentang. Setelah
 mengubah file CSS/JS, naikkan angka `?v=` di `index.html` dan di baris `import` pertama
 `app.js` supaya HP tim tidak memakai versi lama dari cache.
 

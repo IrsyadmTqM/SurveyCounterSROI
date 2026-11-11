@@ -1,5 +1,6 @@
 // Naikkan angka ?v= (juga di index.html) setiap kali file ini atau config diubah.
-import { firebaseConfig } from "./firebase-config.js?v=6";
+import { firebaseConfig } from "./firebase-config.js?v=7";
+import { TASK_GROUPS } from "./tasks.js?v=7";
 
 // ---------------------------------------------------------------------------
 // Pengaturan survei. Ubah target di sini kalau kuota berubah.
@@ -21,6 +22,9 @@ const UNDO_MS = 6000;
 // Setiap responden disimpan sebagai satu catatan:
 //   { fr: "fr" | "nonfr" | "none", ws: boolean, by, at, editedBy?, editedAt?, deletedBy?, deletedAt? }
 // Semua angka dihitung dari daftar ini, jadi tidak ada angka yang bisa diubah manual.
+//
+// Ceklis tugas disimpan per id tugas (lihat tasks.js): { by, at } kalau sudah dicentang,
+// tidak ada catatan kalau belum.
 
 // ---------------------------------------------------------------------------
 // Backend realtime: Firebase Realtime Database.
@@ -33,6 +37,7 @@ async function connectFirebase(config) {
   ]);
   const db = fdb.getDatabase(initializeApp(config));
   const listRef = fdb.ref(db, `${DATA_PATH}/respondents`);
+  const checkRef = fdb.ref(db, `${DATA_PATH}/checklist`);
 
   return {
     mode: "firebase",
@@ -52,6 +57,12 @@ async function connectFirebase(config) {
     reset() {
       return fdb.set(listRef, null);
     },
+    onChecklist(cb, onError) {
+      fdb.onValue(checkRef, (snap) => cb(snap.val() || {}), onError);
+    },
+    setTask(id, value) {
+      return fdb.set(fdb.child(checkRef, id), value);
+    },
   };
 }
 
@@ -60,25 +71,36 @@ async function connectFirebase(config) {
 // yang sama, dipakai kalau Firebase belum diisi atau gagal terhubung.
 // ---------------------------------------------------------------------------
 function connectLocal() {
-  const KEY = "scs:respondents";
-  const read = () => {
-    try {
-      return JSON.parse(localStorage.getItem(KEY)) || {};
-    } catch {
-      return {};
-    }
-  };
-  const subs = new Set();
-  const save = (all) => {
-    localStorage.setItem(KEY, JSON.stringify(all));
-    subs.forEach((cb) => cb(all));
-  };
-  window.addEventListener("storage", (e) => {
-    if (e.key === KEY || e.key === null) {
-      const all = read();
+  // Satu "store" per kunci localStorage, sinkron antar tab lewat event storage.
+  const store = (key) => {
+    const subs = new Set();
+    const read = () => {
+      try {
+        return JSON.parse(localStorage.getItem(key)) || {};
+      } catch {
+        return {};
+      }
+    };
+    const save = (all) => {
+      localStorage.setItem(key, JSON.stringify(all));
       subs.forEach((cb) => cb(all));
-    }
-  });
+    };
+    window.addEventListener("storage", (e) => {
+      if (e.key === key || e.key === null) {
+        const all = read();
+        subs.forEach((cb) => cb(all));
+      }
+    });
+    const subscribe = (cb) => {
+      subs.add(cb);
+      cb(read());
+    };
+    return { read, save, subscribe };
+  };
+  const respondents = store("scs:respondents");
+  const checklist = store("scs:checklist");
+  const read = respondents.read;
+  const save = respondents.save;
   let seq = 0;
   // ID berurutan menurut waktu, sama seperti push ID Firebase.
   const newId = () =>
@@ -88,8 +110,7 @@ function connectLocal() {
     mode: "local",
     now: () => Date.now(),
     onRespondents(cb) {
-      subs.add(cb);
-      cb(read());
+      respondents.subscribe(cb);
     },
     onConnection(cb) {
       cb(true);
@@ -113,6 +134,15 @@ function connectLocal() {
     async reset() {
       save({});
     },
+    onChecklist(cb) {
+      checklist.subscribe(cb);
+    },
+    async setTask(id, value) {
+      const all = checklist.read();
+      if (value === null) delete all[id];
+      else all[id] = { ...value };
+      checklist.save(all);
+    },
   };
 }
 
@@ -127,6 +157,7 @@ const ui = {
   form: { fr: "none", ws: false },
   editing: null, // id responden yang sedang diubah
   surveyor: null,
+  checklist: {},
   cooldown: false,
   firstRender: true,
 };
@@ -464,7 +495,117 @@ function restore(id) {
   toast(`Responden #${rec?.no ?? ""} dipulihkan`);
 }
 
+// ---------------------------------------------------------------------------
+// Ceklis tugas
+// ---------------------------------------------------------------------------
+const ALL_TASKS = TASK_GROUPS.flatMap((g) => g.tasks);
+
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
+}
+
+function buildChecklist() {
+  const wrap = $("#groups");
+  for (const g of TASK_GROUPS) {
+    const sec = el("section", "card group");
+    sec.dataset.group = g.id;
+    const head = el("div", "group-head");
+    head.append(el("h2", null, g.title), el("span", "group-count", `0/${g.tasks.length}`));
+    sec.append(head);
+    if (g.subtitle) sec.append(el("p", "hint", g.subtitle));
+    const list = el("ul", "tasks");
+    for (const t of g.tasks) {
+      const li = el("li", "task");
+      li.dataset.task = t.id;
+      const label = el("label");
+      const box = el("input");
+      box.type = "checkbox";
+      box.dataset.task = t.id;
+      const body = el("span", "task-body");
+      body.append(el("span", "task-title", t.title));
+      if (t.note) body.append(el("span", "task-note", t.note));
+      body.append(el("span", "task-meta"));
+      label.append(box, body);
+      li.append(label);
+      list.append(li);
+    }
+    sec.append(list);
+    wrap.append(sec);
+  }
+}
+
+function renderChecklist(map) {
+  ui.checklist = map || {};
+  let doneAll = 0;
+  for (const g of TASK_GROUPS) {
+    let done = 0;
+    for (const t of g.tasks) {
+      const rec = ui.checklist[t.id];
+      const li = document.querySelector(`.task[data-task="${t.id}"]`);
+      li.classList.toggle("done", Boolean(rec));
+      li.querySelector("input").checked = Boolean(rec);
+      const time = rec ? formatTime(rec.at) : "";
+      li.querySelector(".task-meta").textContent = rec ? `✓ ${rec.by || "Anonim"}${time ? ` · ${time}` : ""}` : "";
+      if (rec) done++;
+    }
+    doneAll += done;
+    const sec = document.querySelector(`.group[data-group="${g.id}"]`);
+    sec.querySelector(".group-count").textContent = `${done}/${g.tasks.length}`;
+    sec.classList.toggle("complete", done === g.tasks.length);
+  }
+  const total = ALL_TASKS.length;
+  const pct = Math.round((doneAll / total) * 100);
+  $("#ceklis-summary").textContent = `${doneAll} dari ${total} tugas selesai`;
+  $("#ceklis-percent").textContent = `${pct}%`;
+  $("#ceklis-fill").style.width = `${pct}%`;
+  $("#tab-ceklis-count").textContent = `${doneAll}/${total}`;
+}
+
+function toggleTask(box) {
+  const id = box.dataset.task;
+  const task = ALL_TASKS.find((t) => t.id === id);
+  if (!task || !ui.backend) return;
+  if (needSurveyor()) {
+    box.checked = !box.checked; // kembalikan, belum ada nama
+    return;
+  }
+  if (box.checked) {
+    run(ui.backend.setTask(id, { by: surveyor(), at: ui.backend.now() }));
+    toast(`Selesai: ${task.title}${offlineSuffix()}`);
+  } else {
+    const prev = ui.checklist[id];
+    run(ui.backend.setTask(id, null));
+    toast(
+      `Centang dibatalkan: ${task.title}`,
+      "ok",
+      prev && { label: "Kembalikan", run: () => run(ui.backend.setTask(id, { by: prev.by, at: prev.at })) },
+    );
+  }
+}
+
+function showView(view) {
+  const v = view === "ceklis" ? "ceklis" : "counter";
+  document.querySelectorAll('[role="tab"]').forEach((btn) => {
+    const active = btn.dataset.view === v;
+    btn.setAttribute("aria-selected", String(active));
+    btn.tabIndex = active ? 0 : -1;
+  });
+  $("#view-counter").hidden = v !== "counter";
+  $("#view-ceklis").hidden = v !== "ceklis";
+  const hash = v === "ceklis" ? "#ceklis" : "";
+  if (location.hash !== hash) history.replaceState(null, "", hash || location.pathname + location.search);
+}
+
 function bindEvents() {
+  document.querySelectorAll('[role="tab"]').forEach((btn) => btn.addEventListener("click", () => showView(btn.dataset.view)));
+  window.addEventListener("hashchange", () => showView(location.hash.slice(1)));
+  $("#groups").addEventListener("change", (e) => {
+    if (e.target.matches('input[type="checkbox"][data-task]')) toggleTask(e.target);
+  });
+
   document.querySelectorAll("[data-fr]").forEach((btn) =>
     btn.addEventListener("click", () => setForm(ui.form.fr === btn.dataset.fr ? "none" : btn.dataset.fr, ui.form.ws)),
   );
@@ -502,13 +643,15 @@ function attach(backend) {
     ui.online = online;
     setStatus(backend.mode, online);
   });
-  backend.onRespondents(render, (err) => {
+  const onReadError = (err) => {
     console.error(err);
     showBanner(
       `<b>Tidak bisa membaca data Firebase:</b> ${escapeHtml(err.message)}. ` +
         "Pastikan <i>Rules</i> di Realtime Database sudah diisi dengan isi <code>database.rules.json</code> lalu di-Publish.",
     );
-  });
+  };
+  backend.onRespondents(render, onReadError);
+  backend.onChecklist(renderChecklist, onReadError);
 }
 
 function escapeHtml(s) {
@@ -518,7 +661,9 @@ function escapeHtml(s) {
 async function start() {
   buildCounters();
   buildSurveyors();
+  buildChecklist();
   bindEvents();
+  showView(location.hash.slice(1));
 
   if (!firebaseConfig) {
     showBanner(

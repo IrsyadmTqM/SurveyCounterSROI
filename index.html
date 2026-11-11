@@ -6,68 +6,88 @@
   <meta name="theme-color" content="#005cfe">
   <title>Survey Counter SROI</title>
   <!-- Naikkan angka ?v= setiap kali file CSS/JS diubah supaya browser tim tidak memakai versi lama. -->
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
   <main>
     <header>
       <div>
         <h1>Survey Counter SROI</h1>
-        <p class="subtitle">Counter responden realtime untuk tim</p>
+        <p class="subtitle">Counter responden &amp; ceklis tugas tim Bandung</p>
       </div>
       <span id="status" class="status" role="status">Menghubungkan…</span>
     </header>
 
     <div id="banner" class="banner" hidden></div>
 
-    <section id="counters" class="counters" aria-label="Jumlah responden"></section>
+    <nav class="tabs" role="tablist" aria-label="Menu">
+      <button type="button" role="tab" id="tab-counter" data-view="counter" aria-controls="view-counter" aria-selected="true">Counter responden</button>
+      <button type="button" role="tab" id="tab-ceklis" data-view="ceklis" aria-controls="view-ceklis" aria-selected="false">Ceklis tugas <span id="tab-ceklis-count" class="pill">–</span></button>
+    </nav>
 
-    <section id="form" class="card form" aria-labelledby="form-title">
-      <h2 id="form-title">Catat responden baru</h2>
-      <p id="form-hint" class="hint">Satu responden = satu kali simpan. <b>Total</b> (carbon footprint) otomatis +1, ditambah kategori yang kamu pilih.</p>
+    <div class="whoami" id="surveyor-field">
+      <span class="field-label">Nama surveyor</span>
+      <div class="seg" id="surveyors" role="group" aria-label="Nama surveyor"></div>
+    </div>
 
-      <div class="field" id="surveyor-field">
-        <span class="field-label">Nama surveyor</span>
-        <div class="seg" id="surveyors" role="group" aria-label="Nama surveyor"></div>
-        <span class="field-help">Dipilih sekali, nanti diingat di HP ini.</span>
-      </div>
+    <!-- ===================== Counter responden ===================== -->
+    <div id="view-counter" role="tabpanel" aria-labelledby="tab-counter">
+      <section id="counters" class="counters" aria-label="Jumlah responden"></section>
 
-      <div class="field">
-        <span class="field-label">Status FR KAI</span>
-        <div class="seg" role="group" aria-label="Status FR KAI">
-          <button type="button" class="chip" data-fr="fr" aria-pressed="false">Pengguna FR</button>
-          <button type="button" class="chip" data-fr="nonfr" aria-pressed="false">Non-pengguna FR</button>
+      <section id="form" class="card form" aria-labelledby="form-title">
+        <h2 id="form-title">Catat responden baru</h2>
+        <p id="form-hint" class="hint">Satu responden = satu kali simpan. <b>Total</b> (carbon footprint) otomatis +1, ditambah kategori yang kamu pilih.</p>
+
+        <div class="field">
+          <span class="field-label">Status FR KAI</span>
+          <div class="seg" role="group" aria-label="Status FR KAI">
+            <button type="button" class="chip" data-fr="fr" aria-pressed="false">Pengguna FR</button>
+            <button type="button" class="chip" data-fr="nonfr" aria-pressed="false">Non-pengguna FR</button>
+          </div>
+          <span class="field-help">Ketuk lagi untuk batal pilih.</span>
         </div>
-        <span class="field-help">Ketuk lagi untuk batal pilih.</span>
-      </div>
 
-      <div class="field">
-        <span class="field-label">Water Station</span>
-        <div class="seg">
-          <button type="button" class="chip" id="q-ws" aria-pressed="false">Pengguna Water Station</button>
+        <div class="field">
+          <span class="field-label">Water Station</span>
+          <div class="seg">
+            <button type="button" class="chip" id="q-ws" aria-pressed="false">Pengguna Water Station</button>
+          </div>
         </div>
-      </div>
 
-      <div class="form-actions">
-        <button type="button" id="cancel-edit" class="secondary" hidden>Batal</button>
-        <button type="button" id="save" class="primary">+ Simpan responden</button>
-      </div>
-    </section>
+        <div class="form-actions">
+          <button type="button" id="cancel-edit" class="secondary" hidden>Batal</button>
+          <button type="button" id="save" class="primary">+ Simpan responden</button>
+        </div>
+      </section>
 
-    <section class="card" aria-labelledby="list-title">
-      <h2 id="list-title">Daftar responden</h2>
-      <p class="hint">Salah input? Tekan <b>Ubah</b> untuk membetulkan kategori, atau <b>Hapus</b> kalau responden tercatat dobel.</p>
-      <ol id="list" class="list"><li class="empty">Belum ada responden.</li></ol>
+      <section class="card" aria-labelledby="list-title">
+        <h2 id="list-title">Daftar responden</h2>
+        <p class="hint">Salah input? Tekan <b>Ubah</b> untuk membetulkan kategori, atau <b>Hapus</b> kalau responden tercatat dobel.</p>
+        <ol id="list" class="list"><li class="empty">Belum ada responden.</li></ol>
 
-      <details id="trash" class="trash" hidden>
-        <summary>Responden terhapus (<span id="trash-count">0</span>)</summary>
-        <ol id="trash-list" class="list"></ol>
-      </details>
-    </section>
+        <details id="trash" class="trash" hidden>
+          <summary>Responden terhapus (<span id="trash-count">0</span>)</summary>
+          <ol id="trash-list" class="list"></ol>
+        </details>
+      </section>
 
-    <footer>
-      <button type="button" id="reset" class="link-danger">Hapus semua data (mulai dari 0)</button>
-    </footer>
+      <footer>
+        <button type="button" id="reset" class="link-danger">Hapus semua data responden (mulai dari 0)</button>
+      </footer>
+    </div>
+
+    <!-- ===================== Ceklis tugas ===================== -->
+    <div id="view-ceklis" role="tabpanel" aria-labelledby="tab-ceklis" hidden>
+      <section class="card progress-card" aria-live="polite">
+        <div class="progress-head">
+          <b id="ceklis-summary">–</b>
+          <span id="ceklis-percent"></span>
+        </div>
+        <div class="bar" aria-hidden="true"><div class="fill" id="ceklis-fill"></div></div>
+        <p class="hint">Centang tugas yang sudah selesai. Semua anggota tim melihat ceklis yang sama, lengkap dengan siapa yang mencentang dan jamnya.</p>
+      </section>
+      <div id="groups"></div>
+    </div>
   </main>
 
   <div id="toast" class="toast" role="status" aria-live="polite" hidden>
@@ -76,6 +96,6 @@
   </div>
 
   <noscript><p class="banner">Aktifkan JavaScript untuk memakai counter ini.</p></noscript>
-  <script type="module" src="app.js?v=6"></script>
+  <script type="module" src="app.js?v=7"></script>
 </body>
 </html>

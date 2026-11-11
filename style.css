@@ -98,6 +98,53 @@ h2 { font-size: 1.05rem; margin: 0 0 6px; }
 }
 .banner code { font-size: 0.85em; }
 
+/* ---------- Tab & pilihan surveyor ---------- */
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+.tabs [role="tab"] {
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.tabs [role="tab"][aria-selected="true"] { background: var(--accent); color: #fff; }
+.pill {
+  display: inline-block;
+  min-width: 2.6em;
+  margin-left: 4px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  background: color-mix(in srgb, currentColor 16%, transparent);
+}
+
+.whoami {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-bottom: 14px;
+  scroll-margin-top: 12px;
+}
+.whoami .field-label { margin: 0; }
+.whoami .chip { min-height: 40px; padding: 8px 14px; }
+
 /* ---------- Counter (hanya tampilan, dihitung dari daftar responden) ---------- */
 .counters {
   display: grid;
@@ -298,3 +345,36 @@ footer { text-align: center; margin-top: 8px; }
 }
 
 button:focus-visible, input:focus-visible, summary:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; }
+
+/* ---------- Ceklis tugas ---------- */
+.progress-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.progress-head b { font-size: 1.05rem; }
+.progress-head span { color: var(--muted); font-weight: 700; font-variant-numeric: tabular-nums; }
+.progress-card .bar { --c: var(--accent); }
+.progress-card .hint { margin: 10px 0 0; }
+
+.group-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.group-head h2 { margin: 0; }
+.group-count { flex: none; font-size: 0.85rem; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.group.complete .group-count { color: var(--ok); }
+.group.complete .group-count::before { content: "✓ "; }
+.group > .hint { margin: 4px 0 0; }
+
+.tasks { list-style: none; margin: 8px 0 0; padding: 0; }
+.task { border-top: 1px solid var(--line); }
+.task:first-child { border-top: 0; }
+.task label { display: flex; gap: 12px; align-items: flex-start; padding: 11px 2px; cursor: pointer; }
+.task input {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin: 1px 0 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.task-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.task-title { font-weight: 600; line-height: 1.35; }
+.task-note { font-size: 0.8rem; color: var(--muted); line-height: 1.35; }
+.task-meta { font-size: 0.78rem; font-weight: 700; color: var(--ok); }
+.task-meta:empty { display: none; }
+.task.done .task-title { color: var(--muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--muted) 60%, transparent); }
