@@ -1,4 +1,5 @@
-// Daftar tugas tim Bandung, diambil dari dokumen "Contekan Lapangan SROI KAI – Bandung".
+// Daftar tugas tim Bandung (Tim 2), dari dokumen "Contekan Lapangan SROI KAI – Bandung" dan Lembar Kerja
+// Internal Lapangan. Tugas dari Lembar Kerja hanya memakai kode informan; detailnya tetap di Lembar Kerja.
 //
 // - Ubah `title` / `note` dengan bebas.
 // - `drive` = lokasi rujukannya di folder OneDrive (lihat SOURCE). Hanya tugas yang punya `drive`
@@ -18,6 +19,9 @@ export const TASK_GROUPS = [
     id: "prep",
     title: "Persiapan & bawaan",
     tasks: [
+      { id: "prep-janji-kp", title: "Buat janji wawancara Kantor Pusat A1–A4", note: "Tenggat H-7 · lihat Checklist H-7" },
+      { id: "prep-pertanyaan-kp", title: "Kirim daftar pertanyaan ke informan A1–A4", note: "H-5 · lihat Checklist H-7" },
+      { id: "prep-qr-a1", title: "Minta A1 mengirim tautan form QR ke mantan pengguna FR", note: "Tenggat H-3 · lihat Checklist H-7" },
       { id: "prep-surat", title: "Surat tugas & surat izin (beberapa fotokopi)" },
       { id: "prep-lanyard", title: "Lanyard & ID card" },
       { id: "prep-laptop", title: "Laptop" },
@@ -90,10 +94,32 @@ export const TASK_GROUPS = [
     ],
   },
   {
+    id: "ext",
+    title: "Wawancara daring",
+    subtitle: "Tugas Tim 2; detail informan dan jadwal di Tracker Wawancara (Lembar Kerja)",
+    tasks: [
+      { id: "ext-janji", title: "Buat janji wawancara daring: A5, B3, dan 3 informan B6", note: "Tenggat H-7 · lihat Checklist H-7" },
+      { id: "ext-pertanyaan", title: "Kirim daftar pertanyaan ke informan daring", note: "H-5 · 3–5 hari sebelum wawancara" },
+      { id: "ext-metode-b6", title: "Kirim ringkasan metode ke 3 informan B6 bersama daftar pertanyaan", note: "H-5 · lihat Checklist H-7" },
+      { id: "ext-a5", title: "Wawancara daring A5 (Daop 8)", note: "Lihat Tracker Wawancara" },
+      { id: "ext-b3", title: "Wawancara daring B3", note: "Lihat Tracker Wawancara" },
+      { id: "ext-b6-1", title: "Wawancara daring B6 (informan 1)", note: "Lihat Tracker Wawancara · narasumber perlu ditetapkan" },
+      { id: "ext-b6-2", title: "Wawancara daring B6 (informan 2)", note: "Lihat Tracker Wawancara · narasumber perlu ditetapkan" },
+      { id: "ext-b6-3", title: "Wawancara daring B6 (informan 3)", note: "Lihat Tracker Wawancara · narasumber perlu ditetapkan" },
+      {
+        id: "ext-upload",
+        title: "Unggah rekaman & catatan tiap wawancara daring",
+        note: "Malam yang sama, ke folder bersama; nama file sesuai sheet Petunjuk",
+      },
+    ],
+  },
+  {
     id: "docs",
     title: "Dokumen yang diminta",
     subtitle: "Minta saat wawancara, centang kalau sudah diterima",
     tasks: [
+      { id: "doc-a1", title: "Dokumen dari A1 (3 item)", note: "Lihat Tracker Dokumen" },
+      { id: "doc-a2", title: "Dokumen dari A2 (5 item)", note: "Lihat Tracker Dokumen" },
       { id: "doc-a3-biaya", title: "Rincian biaya program, termasuk kontrak konsultan", note: "Dari A3" },
       { id: "doc-a3-emisi", title: "Laporan akhir & kertas kerja perhitungan emisi (per relasi dan kelas)", note: "Dari A3" },
       { id: "doc-a3-fgd", title: "Notulen & daftar hadir FGD 15 November 2024", note: "Dari A3" },
@@ -102,18 +128,20 @@ export const TASK_GROUPS = [
       { id: "doc-a4-tiket", title: "Data tiket yang menampilkan info jejak karbon per bulan", note: "Dari A4" },
       { id: "doc-a4-klik", title: "Data klik atau tampilan di aplikasi", note: "Dari A4" },
       { id: "doc-a4-biaya", title: "Rincian biaya pengembangan fitur", note: "Dari A4" },
+      { id: "doc-a5", title: "Dokumen dari A5 (Daop 8)", note: "Lihat Tracker Dokumen" },
+      { id: "doc-b3", title: "Dokumen dari B3 (1 item)", note: "Lihat Tracker Dokumen" },
     ],
   },
   {
     id: "verif",
     title: "Verifikasi internal",
-    subtitle: "Detail di dokumen Contekan Lapangan, bagian Catatan internal. Tanyakan dengan kalimat netral.",
+    subtitle: "Detail di sheet Verifikasi Internal (Lembar Kerja). Tanyakan dengan kalimat netral.",
     tasks: [
       { id: "verif-a3-biaya", title: "Konfirmasi rincian biaya program Carbon Footprint", note: "Ke A3" },
-      { id: "verif-a3-okupansi", title: "Tanyakan asumsi okupansi dalam perhitungan emisi", note: "Ke A3" },
-      { id: "verif-a1-lane", title: "Cek jumlah lane FR terpasang", note: "Ke A1" },
+      { id: "verif-a3-okupansi", title: "Tanyakan asumsi okupansi dalam perhitungan emisi", note: "Ke A3 dan B3" },
+      { id: "verif-a1-lane", title: "Cek jumlah lane FR terpasang", note: "Ke A1 dan A5 Daop 8" },
       { id: "verif-a1-jember", title: "Tanyakan data pengguna FR Jember", note: "Ke A1" },
-      { id: "verif-a2-ws", title: "Cek status pemasangan Water Station Daop 8", note: "Ke A2" },
+      { id: "verif-a2-ws", title: "Cek status pemasangan Water Station Daop 8", note: "Ke A2 dan A5 Daop 8" },
     ],
   },
 ];
