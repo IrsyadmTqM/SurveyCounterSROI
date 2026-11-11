@@ -39,8 +39,8 @@ export const TASK_GROUPS = [
     title: "Hari 1 – Kamis, 12 November",
     subtitle: "Kantor Pusat & Stasiun Bandung",
     tasks: [
-      { id: "h1-a1", title: "Wawancara A1 di Kantor Pusat", note: "Pagi · usul: Rinaldo" },
-      { id: "h1-a2", title: "Wawancara A2 di Kantor Pusat", note: "Pagi · usul: Rinaldo" },
+      { id: "h1-a1", title: "Wawancara A1 di Kantor Pusat", note: "Pagi" },
+      { id: "h1-a2", title: "Wawancara A2 di Kantor Pusat", note: "Pagi" },
       {
         id: "h1-a3",
         title: "Wawancara A3 – Keberlanjutan (RS/RSM)",
