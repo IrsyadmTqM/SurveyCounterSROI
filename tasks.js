@@ -40,9 +40,9 @@ export const TASK_GROUPS = [
       {
         id: "h1-a3",
         title: "Wawancara A3 – Keberlanjutan (RS/RSM)",
-        note: "Pagi, 30–45 menit · usul: Irsyad · minta izin merekam, konfirmasi ulang angka penting di akhir",
+        note: "Pagi, 30–45 menit · minta izin merekam, konfirmasi ulang angka penting di akhir",
       },
-      { id: "h1-a4", title: "Wawancara A4 – IT Ticketing", note: "Pagi, ±30 menit · usul: Irsyad" },
+      { id: "h1-a4", title: "Wawancara A4 – IT Ticketing", note: "Pagi, ±30 menit" },
       { id: "h1-lapor", title: "Lapor ke petugas stasiun & tunjukkan surat tugas", note: "Siang" },
       {
         id: "h1-qr",
