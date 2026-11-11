@@ -1,6 +1,6 @@
 // Naikkan angka ?v= (juga di index.html) setiap kali file ini atau config diubah.
-import { firebaseConfig } from "./firebase-config.js?v=8";
-import { TASK_GROUPS, SECTIONS, SOURCE } from "./tasks.js?v=8";
+import { firebaseConfig } from "./firebase-config.js?v=9";
+import { TASK_GROUPS, SECTIONS, SOURCE } from "./tasks.js?v=9";
 
 // ---------------------------------------------------------------------------
 // Pengaturan survei. Ubah target di sini kalau kuota berubah.
@@ -507,15 +507,15 @@ function el(tag, className, text) {
   return node;
 }
 
-// Tombol "Rujukan" di kanan tugas: membuka dokumen Contekan di tab baru.
-// Dokumennya tidak bisa ditautkan langsung ke satu bagian, jadi nama bagiannya ditampilkan.
+// Tombol "Rujukan" di kanan tugas: membuka folder proyek (lihat SOURCE di tasks.js) di tab baru,
+// dengan nama topiknya di tombol.
 function refLink(section) {
   const a = el("a", "ref");
   a.href = SOURCE.url;
   a.target = "_blank";
   a.rel = "noopener";
-  a.title = `Rujukan: ${SOURCE.title} › ${section.path}`;
-  a.setAttribute("aria-label", `Buka rujukan di dokumen ${SOURCE.title}, bagian ${section.path}`);
+  a.title = `Topik: ${section.path} · buka ${SOURCE.title}`;
+  a.setAttribute("aria-label", `Buka rujukan ${section.label} di ${SOURCE.title}`);
   a.append(el("span", "ref-cap", "Rujukan ↗"), el("span", "ref-label", section.label));
   return a;
 }

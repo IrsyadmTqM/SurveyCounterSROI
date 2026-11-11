@@ -5,14 +5,13 @@
 //   id hanya boleh huruf kecil, angka, dan tanda minus.
 // - Repo dan website ini PUBLIK: jangan tulis angka atau temuan internal di sini.
 
-// Sumber rujukan: tombol "Rujukan" di kanan tiap tugas membuka dokumen ini.
-// (Dokumennya privat di claude.ai; anggota tim perlu diberi akses lewat tombol Share.)
+// Sumber rujukan: tombol "Rujukan" di kanan tiap tugas membuka folder proyek di OneDrive.
 export const SOURCE = {
-  title: "Contekan Lapangan SROI KAI – Bandung",
-  url: "https://claude.ai/artifact/Wi5gXMKeUGedYxAdb2zcSa",
+  title: "Folder proyek PT KAI – SROI 3 Program (OneDrive)",
+  url: "https://1drv.ms/f/c/f2e3f15542ab23db/IgC3VrTu-m5GS7vRnGPdHEoeAYSVTEX4ucERgNQ9e-ByHII?e=ZiyhtI",
 };
 
-// Bagian di dokumen Contekan. `label` tampil di tombol, `path` = judul bagian di dokumen.
+// Topik tugas. `label` tampil di tombol Rujukan, `path` = judul bagian terkait di dokumen Contekan Lapangan.
 export const SECTIONS = {
   hari1: { label: "Hari 1", path: "Tugas tim Bandung › Hari 1 – Kamis 12 November" },
   hari2: { label: "Hari 2", path: "Tugas tim Bandung › Hari 2" },
